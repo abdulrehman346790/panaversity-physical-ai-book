@@ -208,3 +208,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- JavaScript/Node.js 20 LTS, MDX v3 + Docusaurus 3.9.x, @docusaurus/theme-mermaid, docusaurus-search-local (001-docusaurus-book)
+- N/A (static site, content stored as MDX files in Git) (001-docusaurus-book)
+
+## Recent Changes
+- 001-docusaurus-book: Added JavaScript/Node.js 20 LTS, MDX v3 + Docusaurus 3.9.x, @docusaurus/theme-mermaid, docusaurus-search-local

@@ -1,0 +1,9 @@
+{
+  "label": "Module 3: The AI-Robot Brain (NVIDIA Isaac)",
+  "position": 4,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Harness NVIDIA's industrial robotics platform for photorealistic simulation, hardware-accelerated perception, and autonomous navigation."
+  }
+}

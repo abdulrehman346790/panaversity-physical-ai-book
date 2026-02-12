@@ -1,0 +1,9 @@
+{
+  "label": "Appendices",
+  "position": 6,
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "description": "Hardware requirements, software installation guides, and glossary of key terms."
+  }
+}

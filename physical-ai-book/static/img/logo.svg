@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d47a1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bg)"/>
+  <!-- Robot head -->
+  <rect x="60" y="45" width="80" height="65" rx="12" fill="#fff"/>
+  <!-- Eyes -->
+  <circle cx="82" cy="72" r="10" fill="#1a73e8"/>
+  <circle cx="118" cy="72" r="10" fill="#1a73e8"/>
+  <circle cx="84" cy="70" r="4" fill="#fff"/>
+  <circle cx="120" cy="70" r="4" fill="#fff"/>
+  <!-- Mouth -->
+  <rect x="80" y="90" width="40" height="6" rx="3" fill="#1a73e8"/>
+  <!-- Antenna -->
+  <line x1="100" y1="45" x2="100" y2="30" stroke="#fff" stroke-width="3"/>
+  <circle cx="100" cy="27" r="5" fill="#4da6ff"/>
+  <!-- Body -->
+  <rect x="70" y="115" width="60" height="45" rx="8" fill="#fff"/>
+  <!-- AI circuit lines on body -->
+  <line x1="85" y1="125" x2="85" y2="150" stroke="#1a73e8" stroke-width="2"/>
+  <line x1="100" y1="120" x2="100" y2="155" stroke="#1a73e8" stroke-width="2"/>
+  <line x1="115" y1="125" x2="115" y2="150" stroke="#1a73e8" stroke-width="2"/>
+  <line x1="78" y1="137" x2="122" y2="137" stroke="#1a73e8" stroke-width="2"/>
+  <!-- Circuit nodes -->
+  <circle cx="85" cy="137" r="3" fill="#4da6ff"/>
+  <circle cx="100" cy="137" r="3" fill="#4da6ff"/>
+  <circle cx="115" cy="137" r="3" fill="#4da6ff"/>
+  <!-- Arms -->
+  <rect x="45" y="120" width="22" height="8" rx="4" fill="#fff"/>
+  <rect x="133" y="120" width="22" height="8" rx="4" fill="#fff"/>
+  <!-- Legs -->
+  <rect x="80" y="162" width="12" height="18" rx="4" fill="#fff"/>
+  <rect x="108" y="162" width="12" height="18" rx="4" fill="#fff"/>
+</svg>

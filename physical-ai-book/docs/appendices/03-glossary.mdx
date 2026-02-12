@@ -1,0 +1,344 @@
+---
+sidebar_position: 3
+title: "Glossary of Key Terms"
+description: "Comprehensive glossary of Physical AI, robotics, ROS 2, simulation, and VLA terminology used throughout this textbook."
+keywords: [glossary, robotics terms, ROS 2 terminology, Physical AI definitions, humanoid robotics vocabulary]
+---
+
+# Glossary of Key Terms
+
+A comprehensive reference of terminology used throughout this textbook, organized alphabetically by domain.
+
+---
+
+## A
+
+**Action (ROS 2)**
+A communication pattern for long-running tasks that provides goal submission, continuous feedback, and a final result. Defined by a `.action` file containing goal, result, and feedback message types. See Chapter 3.
+
+**Ament**
+The build system used by ROS 2, replacing catkin from ROS 1. Supports both CMake (`ament_cmake`) and Python (`ament_python`) build types.
+
+**Actuator**
+A mechanical device that converts energy (electrical, hydraulic, pneumatic) into physical motion. In humanoid robots, actuators drive joints to produce movement.
+
+---
+
+## B
+
+**Base Link**
+The root link in a URDF kinematic tree. All other links and joints reference back to this link through the chain. Typically the robot's torso or pelvis.
+
+**Behavior Tree (BT)**
+A hierarchical task-planning structure used in Nav2 and robot decision-making. Nodes represent conditions or actions, composed via sequence, fallback, and decorator nodes.
+
+---
+
+## C
+
+**Callback**
+A function registered with ROS 2 that executes when an event occurs (e.g., a message arrives on a subscribed topic, a timer fires, or a service request is received).
+
+**Callback Group**
+A ROS 2 mechanism controlling concurrency. `MutuallyExclusiveCallbackGroup` prevents simultaneous execution; `ReentrantCallbackGroup` allows it.
+
+**Chain of Thought (CoT)**
+A prompting technique where an LLM generates intermediate reasoning steps before producing a final answer. Used in cognitive planning for robots to decompose complex instructions.
+
+**Colcon**
+The collective construction tool used to build ROS 2 workspaces. Supports parallel builds, `--symlink-install` for development, and `colcon test` for running tests.
+
+**Collision Geometry**
+Simplified geometric shapes (boxes, cylinders, spheres) used for physics collision detection in URDF/SDF models, separate from visual geometry.
+
+**CUDA**
+NVIDIA's parallel computing platform. Required for GPU-accelerated perception (Isaac ROS), simulation (Isaac Sim), and deep learning inference.
+
+**cuDNN**
+NVIDIA's GPU-accelerated library for deep neural networks. Used by Isaac ROS for optimized inference of perception models.
+
+---
+
+## D
+
+**DDS (Data Distribution Service)**
+The middleware standard underlying ROS 2 communication. Provides peer-to-peer, decentralized publish/subscribe with configurable Quality of Service policies.
+
+**Dead Reckoning**
+Estimating position by integrating velocity and acceleration measurements over time. Prone to drift without correction from external references.
+
+**Degrees of Freedom (DOF)**
+The number of independent parameters defining a robot's configuration. A humanoid robot typically has 30+ DOF across all joints.
+
+**Depth Camera**
+A sensor that captures per-pixel distance measurements. Technologies include structured light (RealSense D435), time-of-flight (Azure Kinect), and stereo matching.
+
+**Digital Twin**
+A synchronized virtual replica of a physical system that mirrors the real robot's state in real time, enabling predictive maintenance, safe experimentation, and remote monitoring.
+
+**Domain ID**
+A ROS 2 network isolation mechanism. Nodes with the same `ROS_DOMAIN_ID` discover each other; different IDs create separate communication domains.
+
+---
+
+## E
+
+**ECS (Entity-Component-System)**
+An architectural pattern used by Gazebo Sim where entities are IDs, components hold data, and systems contain logic. Enables modular, high-performance simulation.
+
+**EKF (Extended Kalman Filter)**
+A sensor fusion algorithm that combines IMU, odometry, and other sensor data to estimate robot state. The `robot_localization` package provides EKF and UKF nodes for ROS 2.
+
+**Embodied AI**
+AI systems that have a physical presence and interact with the real world through sensors and actuators, as opposed to purely digital AI systems.
+
+**End Effector**
+The device at the end of a robotic arm designed to interact with the environment, such as a gripper, suction cup, or tool.
+
+---
+
+## F
+
+**Force/Torque Sensor**
+A sensor measuring forces and torques along 6 axes (Fx, Fy, Fz, Tx, Ty, Tz), attached at robot joints to detect contact forces and enable compliant manipulation.
+
+**Frame (tf2)**
+A named coordinate system in the tf2 transform tree. Common frames include `base_link`, `odom`, `map`, and sensor frames like `camera_link`.
+
+---
+
+## G
+
+**Gazebo (Gz)**
+An open-source robotics simulator providing physics engines, sensor simulation, and ROS 2 integration. The modern version (Gazebo Harmonic) uses the `gz-sim` architecture.
+
+**GNSS (Global Navigation Satellite System)**
+Satellite-based positioning (GPS, GLONASS, Galileo). Used for outdoor robot localization but unavailable indoors where VSLAM is preferred.
+
+**Grasp Pose**
+The position and orientation of an end effector required to successfully grasp an object. Computed by grasp planners using object geometry and physics.
+
+---
+
+## H
+
+**Humanoid Robot**
+A robot with a human-like body structure including a head, torso, two arms, and two legs. Examples include Atlas (Boston Dynamics), Optimus (Tesla), and Figure 01.
+
+---
+
+## I
+
+**IMU (Inertial Measurement Unit)**
+A sensor combining accelerometers and gyroscopes (sometimes magnetometers) to measure linear acceleration, angular velocity, and orientation.
+
+**Inertial Properties**
+Mass, center of mass, and inertia tensor defined in URDF/SDF. Critical for accurate physics simulation and dynamic control.
+
+**Isaac ROS**
+NVIDIA's collection of GPU-accelerated ROS 2 packages for perception tasks including stereo depth, visual odometry, object detection, and VSLAM.
+
+**Isaac Sim**
+NVIDIA's high-fidelity robotics simulator built on Omniverse. Features photorealistic rendering, GPU-accelerated physics (PhysX 5), and domain randomization for sim-to-real transfer.
+
+---
+
+## J
+
+**Joint**
+A connection between two links in a robot model that defines the allowed relative motion. Types include `revolute` (rotation with limits), `continuous` (unlimited rotation), `prismatic` (linear sliding), and `fixed` (no motion).
+
+**Joint State**
+The current position, velocity, and effort values for all joints in a robot, published on the `/joint_states` topic using `sensor_msgs/msg/JointState`.
+
+---
+
+## K
+
+**Kinematic Chain**
+A series of links connected by joints forming a chain from base to end effector. Used to compute forward and inverse kinematics.
+
+**Kinematics**
+The study of motion without considering forces. Forward kinematics computes end-effector pose from joint angles; inverse kinematics computes joint angles from desired end-effector pose.
+
+---
+
+## L
+
+**Launch File**
+A Python script (`*.launch.py`) that starts multiple ROS 2 nodes with configured parameters, remappings, and arguments. Replaces XML launch files from ROS 1.
+
+**LiDAR (Light Detection and Ranging)**
+A sensor that measures distances using laser pulses. 2D LiDAR produces planar scans; 3D LiDAR produces point clouds. Essential for mapping and obstacle detection.
+
+**Link**
+A rigid body in a URDF/SDF robot model with visual, collision, and inertial properties. Links are connected by joints to form the kinematic tree.
+
+**Localization**
+The process of determining a robot's position and orientation within a known map. Methods include AMCL (particle filter), EKF, and VSLAM.
+
+---
+
+## M
+
+**Mermaid**
+A JavaScript-based diagramming tool used in this textbook for rendering flowcharts, sequence diagrams, and architecture diagrams directly in MDX.
+
+**MoveIt 2**
+A ROS 2 framework for robotic manipulation providing motion planning, kinematics, collision checking, and grasp planning.
+
+**Multimodal Model**
+An AI model that processes multiple input types (text, images, audio, video) simultaneously. VLA models are multimodal, accepting visual and language inputs.
+
+---
+
+## N
+
+**Nav2 (Navigation 2)**
+The ROS 2 navigation framework providing path planning, obstacle avoidance, behavior trees, and costmap management for autonomous mobile robots.
+
+**Node**
+The fundamental computational unit in ROS 2. Each node is a single-purpose process that communicates with other nodes via topics, services, and actions.
+
+**Noise Model**
+Mathematical representation of sensor measurement errors in simulation. Includes Gaussian noise, bias, drift, and quantization to match real sensor behavior.
+
+---
+
+## O
+
+**Occupancy Grid**
+A 2D grid map where each cell indicates the probability of being occupied, free, or unknown. Used by SLAM and Nav2 for navigation planning.
+
+**Odometry**
+Estimation of position change over time using wheel encoders, IMU, or visual features. Published on `/odom` topic using `nav_msgs/msg/Odometry`.
+
+**Omniverse**
+NVIDIA's platform for 3D simulation and collaboration, built on USD (Universal Scene Description). Isaac Sim runs on Omniverse.
+
+---
+
+## P
+
+**Parameter (ROS 2)**
+A named configuration value attached to a node (e.g., max_speed, sensor_rate). Can be declared, validated, and dynamically reconfigured at runtime.
+
+**PhysX**
+NVIDIA's GPU-accelerated physics engine used in Isaac Sim. Version 5 supports rigid bodies, articulations, soft bodies, and deformable objects.
+
+**Point Cloud**
+A 3D dataset of points in space, each with (x, y, z) coordinates and optional attributes (color, intensity). Generated by LiDAR and depth cameras.
+
+**Pose**
+A combination of position (x, y, z) and orientation (roll, pitch, yaw or quaternion) describing an object's placement in 3D space.
+
+---
+
+## Q
+
+**QoS (Quality of Service)**
+DDS policies controlling message delivery behavior in ROS 2. Key policies include reliability (reliable vs. best-effort), durability (volatile vs. transient-local), and history depth.
+
+**Quaternion**
+A four-component mathematical representation of 3D rotation (w, x, y, z) that avoids gimbal lock. Preferred over Euler angles in robotics computations.
+
+---
+
+## R
+
+**ROS 2 (Robot Operating System 2)**
+An open-source middleware framework for robot software development. Provides communication primitives, hardware abstraction, package management, and a rich ecosystem of libraries.
+
+**ros2_control**
+A ROS 2 framework for real-time robot control providing hardware abstraction, controller management, and standardized interfaces for joint position, velocity, and effort control.
+
+**ros_gz_bridge**
+A package that translates messages between Gazebo transport and ROS 2 topics, enabling seamless integration of simulation with ROS 2 nodes.
+
+**RVIZ2**
+The primary ROS 2 3D visualization tool for displaying sensor data, robot models, tf frames, paths, and point clouds.
+
+---
+
+## S
+
+**SDF (Simulation Description Format)**
+An XML format for describing simulation environments including models, lights, physics, and sensors. Native to Gazebo and more expressive than URDF.
+
+**Service (ROS 2)**
+A synchronous request/response communication pattern. A client sends a request and blocks (or uses async) until the server returns a response. Defined by a `.srv` file.
+
+**Sim-to-Real Transfer**
+The process of training or validating robot behaviors in simulation and deploying them on physical hardware. Domain randomization and system identification improve transfer success.
+
+**SLAM (Simultaneous Localization and Mapping)**
+Algorithms that build a map of an unknown environment while simultaneously tracking the robot's position within it.
+
+---
+
+## T
+
+**TensorRT**
+NVIDIA's deep learning inference optimizer that converts trained models into optimized engines for deployment. Used by Isaac ROS for real-time perception.
+
+**tf2 (Transform Library)**
+A ROS 2 library managing coordinate frame relationships. Maintains a time-stamped transform tree that any node can query to convert data between frames.
+
+**Topic**
+An asynchronous publish/subscribe communication channel in ROS 2. Publishers send messages to a named topic; subscribers receive them. Supports one-to-many and many-to-many patterns.
+
+**Twist**
+A message type (`geometry_msgs/msg/Twist`) representing linear and angular velocities. Used for commanding robot motion via `/cmd_vel`.
+
+---
+
+## U
+
+**URDF (Unified Robot Description Format)**
+An XML format for describing robot structure as a kinematic tree of links and joints. Used by ROS 2 for visualization, motion planning, and control.
+
+**USD (Universal Scene Description)**
+Pixar's open-source format for 3D scenes adopted by NVIDIA Omniverse. Supports layering, composition, and collaborative editing of large environments.
+
+---
+
+## V
+
+**Visual SLAM (VSLAM)**
+SLAM using camera images rather than LiDAR. Isaac ROS provides GPU-accelerated VSLAM using stereo or RGB-D cameras for real-time localization.
+
+**VLA (Vision-Language-Action) Model**
+A multimodal AI model that takes visual observations and natural language instructions as input and outputs robot action commands. Represents the convergence of computer vision, NLP, and robotics control.
+
+**Voxel**
+A 3D volumetric pixel. Voxel grids are used in 3D costmaps and point cloud processing to discretize space into regular cubes.
+
+---
+
+## W
+
+**Workspace (ROS 2)**
+A directory containing one or more ROS 2 packages built together using colcon. Includes `src/` (source), `build/`, `install/`, and `log/` directories.
+
+**Whisper**
+OpenAI's automatic speech recognition model used in voice-to-action pipelines to transcribe human speech into text for robot command interpretation.
+
+**Wrench**
+A combined force and torque vector (Fx, Fy, Fz, Tx, Ty, Tz) measured by force/torque sensors. Published using `geometry_msgs/msg/WrenchStamped`.
+
+---
+
+## X
+
+**Xacro (XML Macros)**
+A macro language extending URDF that enables parameterization, reusable components, conditional blocks, and mathematical expressions. Processed into plain URDF before use.
+
+---
+
+## Z
+
+**Zero-Shot**
+Performing a task without task-specific training examples. Zero-shot VLA models can follow novel instructions not seen during training.
+
+**ZMQ (ZeroMQ)**
+A messaging library sometimes used for custom inter-process communication in robotics pipelines outside of DDS/ROS 2.

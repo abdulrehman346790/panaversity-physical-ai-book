@@ -1,0 +1,674 @@
+---
+sidebar_position: 2
+title: "Software Installation Guide"
+description: "Step-by-step installation instructions for ROS 2, Gazebo, NVIDIA Isaac Sim, JetPack SDK, and development tools."
+keywords: [installation, ros2, gazebo, isaac sim, jetpack, ubuntu, setup guide]
+---
+
+# Software Installation Guide
+
+> Appendix 2 — Physical AI & Humanoid Robotics
+
+This guide provides step-by-step instructions for setting up the complete software environment required for all four course modules. Every command is copy-paste ready and tested on **Ubuntu 22.04 LTS** (Jammy Jellyfish).
+
+:::note
+**Estimated setup time:** 2–4 hours on a fresh Ubuntu 22.04 install, depending on internet speed. Docker setup is faster (~45 minutes) and is provided as an alternative for each major component.
+:::
+
+---
+
+## Prerequisites: Fresh Ubuntu 22.04 System
+
+Before starting, verify your system meets the baseline requirements:
+
+```bash
+# Check Ubuntu version (must be 22.04)
+lsb_release -a
+
+# Check available disk space (need at least 80 GB free)
+df -h /
+
+# Check GPU is visible
+lspci | grep -i nvidia
+
+# Update package lists
+sudo apt update && sudo apt upgrade -y
+
+# Install essential build tools
+sudo apt install -y \
+    build-essential \
+    cmake \
+    git \
+    curl \
+    wget \
+    software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    python3-pip \
+    python3-venv \
+    python3-dev
+```
+
+---
+
+## Part 1: NVIDIA Driver and CUDA Installation
+
+Isaac Sim and hardware-accelerated inference both require a recent NVIDIA driver and CUDA toolkit.
+
+```bash
+# Step 1: Remove any existing NVIDIA drivers
+sudo apt purge nvidia-* -y
+sudo apt autoremove -y
+
+# Step 2: Install the recommended NVIDIA driver
+sudo apt install -y ubuntu-drivers-common
+sudo ubuntu-drivers autoinstall
+
+# Step 3: Reboot
+sudo reboot
+
+# Step 4: After reboot, verify driver installation
+nvidia-smi
+# Expected: shows GPU name, Driver Version: 535.xx or newer, CUDA Version: 12.x
+
+# Step 5: Install CUDA Toolkit 12.3
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt update
+sudo apt install -y cuda-toolkit-12-3
+
+# Step 6: Add CUDA to PATH (add to ~/.bashrc)
+echo 'export PATH=/usr/local/cuda-12.3/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
+
+# Step 7: Verify CUDA installation
+nvcc --version
+# Expected: nvcc release 12.3
+```
+
+:::warning
+Do not install CUDA via the `.run` installer if you plan to use Isaac Sim — use the `apt` method shown above. The `.run` installer can conflict with the NVIDIA driver installed by `ubuntu-drivers`.
+:::
+
+---
+
+## Part 2: ROS 2 Humble Installation
+
+ROS 2 Humble Hawksbill is the LTS release used throughout this course. It targets Ubuntu 22.04 and is supported until May 2027.
+
+```bash
+# Step 1: Enable the Ubuntu Universe repository
+sudo apt install -y software-properties-common
+sudo add-apt-repository universe
+
+# Step 2: Add the ROS 2 GPG key
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+    -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+# Step 3: Add the ROS 2 repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+    http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" \
+    | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+# Step 4: Update and install ROS 2 Desktop (full installation)
+sudo apt update
+sudo apt install -y ros-humble-desktop
+
+# Step 5: Install development tools
+sudo apt install -y \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    python3-vcstool \
+    ros-humble-rmw-cyclonedds-cpp
+
+# Step 6: Initialize rosdep
+sudo rosdep init
+rosdep update
+
+# Step 7: Source ROS 2 automatically on every new terminal
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+# Step 8: Verify installation
+ros2 --version
+# Expected: ros2 cli version: 0.18.x (Humble)
+
+# Step 9: Test with a publisher/subscriber demo (in two terminals)
+# Terminal 1:
+ros2 run demo_nodes_cpp talker
+# Terminal 2:
+ros2 run demo_nodes_py listener
+```
+
+:::tip
+The `RMW_IMPLEMENTATION=rmw_cyclonedds_cpp` middleware performs better than the default FastRTPS in multi-robot scenarios and with Docker networking. Add it to your `.bashrc`:
+```bash
+echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
+```
+:::
+
+---
+
+## Part 3: Gazebo Ignition (Fortress) Installation
+
+Gazebo Ignition Fortress is the simulation engine used in Module 2. It installs alongside ROS 2 using the `ros-gz` bridge package.
+
+```bash
+# Step 1: Install Gazebo Ignition Fortress
+sudo apt install -y ros-humble-ros-gz
+
+# This installs:
+# - ignition-fortress (the simulator)
+# - ros_gz_bridge (ROS 2 <-> Gazebo topic bridge)
+# - ros_gz_sim (launch integration)
+# - ros_gz_image (image bridge)
+
+# Step 2: Verify Gazebo installation
+ign gazebo --version
+# Expected: Ignition Gazebo, version 6.x.x (Fortress)
+
+# Step 3: Run the Gazebo sample world to verify GPU rendering
+ign gazebo shapes.sdf
+# A window should open showing colored 3D shapes with proper lighting
+
+# Step 4: Install additional Gazebo plugins for robot simulation
+sudo apt install -y \
+    ros-humble-gazebo-ros2-control \
+    ros-humble-joint-state-publisher \
+    ros-humble-joint-state-publisher-gui \
+    ros-humble-robot-state-publisher \
+    ros-humble-xacro
+```
+
+### Setting Up Your First Gazebo World
+
+```bash
+# Create a workspace and test package
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+ros2 pkg create --build-type ament_cmake my_robot_sim
+
+# Build the workspace
+cd ~/ros2_ws
+colcon build
+source install/setup.bash
+
+# Test launching Gazebo from ROS 2
+ros2 launch ros_gz_sim gz_sim.launch.py gz_args:="-r empty.sdf"
+```
+
+---
+
+## Part 4: Nav2 Navigation Stack
+
+Nav2 is used in Module 3 for autonomous navigation. Install it as a complete stack:
+
+```bash
+# Install the full Nav2 stack
+sudo apt install -y \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-slam-toolbox \
+    ros-humble-nav2-map-server \
+    ros-humble-nav2-lifecycle-manager
+
+# Install the Nav2 turtlebot demo for testing
+sudo apt install -y ros-humble-turtlebot3-gazebo ros-humble-turtlebot3-navigation2
+
+# Test Nav2 with TurtleBot3 (set robot model first)
+echo "export TURTLEBOT3_MODEL=waffle" >> ~/.bashrc
+source ~/.bashrc
+
+# Launch the navigation demo (this opens Gazebo + RViz2 + Nav2)
+ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False
+```
+
+---
+
+## Part 5: MoveIt 2 (Manipulation Planning)
+
+MoveIt 2 is used for arm motion planning in Module 4 (capstone manipulation tasks).
+
+```bash
+# Install MoveIt 2 for Humble
+sudo apt install -y \
+    ros-humble-moveit \
+    ros-humble-moveit-ros-planning \
+    ros-humble-moveit-ros-planning-interface \
+    ros-humble-moveit-ros-visualization \
+    ros-humble-moveit-setup-assistant
+
+# Install MoveIt Task Constructor (for pick-and-place sequences)
+sudo apt install -y ros-humble-moveit-task-constructor-core
+
+# Verify MoveIt installation with the demo
+ros2 launch moveit2_tutorials demo.launch.py
+# Opens RViz2 with a Panda robot arm you can plan motions for
+```
+
+---
+
+## Part 6: NVIDIA Isaac Sim Installation
+
+Isaac Sim requires an NVIDIA Omniverse account (free). Installation is done through the Omniverse Launcher.
+
+### 6.1 Install Omniverse Launcher
+
+```bash
+# Step 1: Download the Omniverse Launcher AppImage
+wget https://install.launcher.omniverse.nvidia.com/installers/omniverse-launcher-linux.AppImage
+
+# Step 2: Make it executable and run
+chmod +x omniverse-launcher-linux.AppImage
+./omniverse-launcher-linux.AppImage
+
+# The GUI launcher will open. Sign in with your NVIDIA Developer account.
+# Go to "Exchange" tab -> search "Isaac Sim" -> Install version 4.x
+```
+
+:::warning
+Isaac Sim requires approximately 25 GB of disk space. Ensure you have at least 50 GB free before starting the installation (it needs space for installation and runtime caches).
+:::
+
+### 6.2 Install Isaac Sim from the Terminal (Headless / Server)
+
+For cloud instances or headless servers:
+
+```bash
+# Install Isaac Sim via pip (newer method for Isaac Sim 4.x)
+pip install isaacsim==4.2.0 \
+    --extra-index-url https://pypi.nvidia.com
+
+# Or install the full simulation environment
+pip install isaacsim-rl isaacsim-replicator isaacsim-extscache-physics \
+    isaacsim-extscache-kit isaacsim-extscache-kit-sdk \
+    --extra-index-url https://pypi.nvidia.com
+
+# Verify installation
+python3 -c "import isaacsim; print('Isaac Sim installed successfully')"
+```
+
+### 6.3 Isaac ROS (ROS 2 Hardware-Accelerated Packages)
+
+Isaac ROS packages run on both Jetson and x86 with NITROS (NVIDIA Isaac Transport for ROS):
+
+```bash
+# Step 1: Add the Isaac ROS apt repository
+curl -sSL https://isaac.download.nvidia.com/isaac-ros/repos.key \
+    | sudo apt-key add -
+echo "deb https://isaac.download.nvidia.com/isaac-ros/ubuntu jammy release" \
+    | sudo tee /etc/apt/sources.list.d/isaac-ros.list
+sudo apt update
+
+# Step 2: Install Isaac ROS common packages
+sudo apt install -y \
+    ros-humble-isaac-ros-nitros \
+    ros-humble-isaac-ros-visual-slam \
+    ros-humble-isaac-ros-object-detection \
+    ros-humble-isaac-ros-depth-segmentation
+
+# Step 3: Install Isaac ROS image pipeline
+sudo apt install -y ros-humble-isaac-ros-image-pipeline
+
+# Step 4: Verify NITROS bridge
+ros2 pkg list | grep isaac
+```
+
+---
+
+## Part 7: JetPack SDK on Jetson Orin
+
+This section applies only to students setting up the Jetson hardware kit.
+
+### 7.1 Flash JetPack 6.0 via SDK Manager
+
+On your **host Ubuntu 22.04 workstation** (not the Jetson):
+
+```bash
+# Step 1: Install NVIDIA SDK Manager
+wget https://developer.download.nvidia.com/sdkmanager/releases/sdkmanager_2.1.0-11665_amd64.deb
+sudo dpkg -i sdkmanager_2.1.0-11665_amd64.deb
+
+# Step 2: Launch SDK Manager
+sdkmanager
+
+# In the GUI:
+# - Target Hardware: Jetson Orin NX 16GB
+# - Target OS: JetPack 6.0
+# - SDK Components: CUDA, cuDNN, TensorRT, VPI
+# Put Jetson in recovery mode (hold RECOVERY + POWER buttons) and connect USB
+# Click "Flash"
+```
+
+### 7.2 Post-Flash Jetson Setup
+
+After flashing, on the Jetson itself:
+
+```bash
+# Verify JetPack version
+cat /etc/nv_tegra_release
+# Expected: R35 (release) REVISION: 4.1 or R36 for JetPack 6.x
+
+# Install ROS 2 Humble on Jetson (same commands as workstation)
+# The ARM64 packages are served from the same ROS 2 apt repository
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+    -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+    http://packages.ros.org/ros2/ubuntu jammy main" \
+    | sudo tee /etc/apt/sources.list.d/ros2.list
+sudo apt update
+sudo apt install -y ros-humble-ros-base  # Use ros-base on Jetson (no GUI)
+sudo apt install -y python3-colcon-common-extensions python3-rosdep
+
+# Install Isaac ROS on Jetson (identical commands to workstation)
+# The packages detect ARM64 and install NITROS GPU-accelerated versions
+sudo apt install -y ros-humble-isaac-ros-nitros ros-humble-isaac-ros-visual-slam
+```
+
+### 7.3 Set Jetson to Maximum Performance Mode
+
+```bash
+# Enable all CPU cores and maximum GPU frequency
+sudo nvpmodel -m 0   # Maximum power mode
+sudo jetson_clocks   # Lock clocks at maximum
+
+# Monitor performance
+tegrastats
+```
+
+---
+
+## Part 8: Python Virtual Environment Setup
+
+Isolate course Python dependencies from system Python:
+
+```bash
+# Step 1: Create a virtual environment for the course
+python3 -m venv ~/physical-ai-env
+
+# Step 2: Activate it (add to .bashrc so it activates automatically)
+echo "source ~/physical-ai-env/bin/activate" >> ~/.bashrc
+source ~/.bashrc
+
+# Step 3: Install course Python dependencies
+pip install --upgrade pip
+
+# Core AI/ML packages
+pip install \
+    openai==1.30.0 \
+    torch==2.3.0+cu121 torchvision==0.18.0+cu121 \
+    --extra-index-url https://download.pytorch.org/whl/cu121
+
+# Speech and audio
+pip install \
+    openai-whisper==20231117 \
+    sounddevice==0.4.6 \
+    numpy==1.26.4
+
+# Robotics and vision
+pip install \
+    mediapipe==0.10.14 \
+    opencv-python==4.9.0.80 \
+    pyrealsense2==2.55.1.6486 \
+    transforms3d==0.4.1
+
+# Utilities
+pip install \
+    pydantic==2.7.1 \
+    python-dotenv==1.0.1 \
+    rich==13.7.1 \
+    pytest==8.2.0
+
+# Step 4: Verify key packages
+python3 -c "import openai; print('OpenAI OK')"
+python3 -c "import torch; print(f'PyTorch {torch.__version__}, CUDA: {torch.cuda.is_available()}')"
+python3 -c "import whisper; print('Whisper OK')"
+```
+
+:::tip
+When using the virtual environment with ROS 2, source ROS 2 first, then activate the venv. ROS 2's Python packages (rclpy, etc.) are in the system Python. The venv adds on top of these.
+```bash
+source /opt/ros/humble/setup.bash
+source ~/physical-ai-env/bin/activate
+```
+:::
+
+---
+
+## Part 9: VS Code Setup
+
+Visual Studio Code is the recommended IDE for this course.
+
+```bash
+# Install VS Code
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg \
+    /etc/apt/keyrings/packages.microsoft.gpg
+echo "deb [arch=amd64,arm64 signed-by=/etc/apt/keyrings/packages.microsoft.gpg] \
+    https://packages.microsoft.com/repos/code stable main" \
+    | sudo tee /etc/apt/sources.list.d/vscode.list
+sudo apt update
+sudo apt install -y code
+
+# Open VS Code
+code
+```
+
+Install the following extensions from the VS Code Extensions panel (`Ctrl+Shift+X`):
+
+| Extension | Publisher | Purpose |
+|---|---|---|
+| **ROS** | Microsoft | ROS 2 node launch, topic inspection, URDF preview |
+| **Python** | Microsoft | Python IntelliSense and debugging |
+| **Pylance** | Microsoft | Fast Python type checking |
+| **C/C++** | Microsoft | C++ IntelliSense for ROS 2 C++ nodes |
+| **CMake Tools** | Microsoft | CMake integration for C++ packages |
+| **Docker** | Microsoft | Container management |
+| **YAML** | Red Hat | YAML syntax for ROS 2 params and launch files |
+| **Markdown All in One** | Yu Zhang | For editing MDX/Markdown documentation |
+| **GitLens** | GitKraken | Enhanced Git integration |
+
+Install all at once from the terminal:
+
+```bash
+code --install-extension ms-iot.vscode-ros \
+     ms-python.python \
+     ms-python.vscode-pylance \
+     ms-vscode.cpptools \
+     ms-vscode.cmake-tools \
+     ms-azuretools.vscode-docker \
+     redhat.vscode-yaml \
+     yzhang.markdown-all-in-one \
+     eamodio.gitlens
+```
+
+### VS Code Settings for ROS 2
+
+Create a workspace settings file:
+
+```bash
+mkdir -p ~/ros2_ws/.vscode
+cat > ~/ros2_ws/.vscode/settings.json << 'EOF'
+{
+    "python.defaultInterpreterPath": "${env:HOME}/physical-ai-env/bin/python3",
+    "python.analysis.extraPaths": [
+        "/opt/ros/humble/lib/python3.10/site-packages"
+    ],
+    "ros.distro": "humble",
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "files.associations": {
+        "*.urdf": "xml",
+        "*.xacro": "xml",
+        "*.sdf": "xml",
+        "*.launch.py": "python"
+    }
+}
+EOF
+```
+
+---
+
+## Part 10: Docker Development Environment
+
+Docker provides a fully reproducible environment. Use this if you prefer not to install everything directly on your host system, or for CI/CD pipelines.
+
+### 10.1 Install Docker
+
+```bash
+# Remove old Docker versions
+sudo apt remove docker docker-engine docker.io containerd runc
+
+# Install Docker Engine
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+    | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) \
+    signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+    https://download.docker.com/linux/ubuntu jammy stable" \
+    | sudo tee /etc/apt/sources.list.d/docker.list
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Add your user to the docker group (avoid needing sudo)
+sudo usermod -aG docker $USER
+newgrp docker
+
+# Install NVIDIA Container Toolkit (for GPU access inside containers)
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+    | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
+    | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
+    | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sudo apt update
+sudo apt install -y nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+```
+
+### 10.2 Course Dockerfile
+
+```dockerfile
+# Dockerfile for Physical AI course
+FROM ros:humble-desktop
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    ros-humble-slam-toolbox \
+    ros-humble-moveit \
+    ros-humble-ros-gz \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip3 install \
+    openai==1.30.0 \
+    openai-whisper==20231117 \
+    sounddevice==0.4.6 \
+    mediapipe==0.10.14 \
+    opencv-python-headless==4.9.0.80 \
+    pydantic==2.7.1 \
+    python-dotenv==1.0.1
+
+# Set up workspace
+WORKDIR /ros2_ws
+RUN rosdep init || true && rosdep update
+
+# Source ROS 2 automatically
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+
+CMD ["/bin/bash"]
+```
+
+```bash
+# Build the Docker image
+docker build -t physical-ai-course:humble .
+
+# Run with GPU and display support
+docker run -it --rm \
+    --gpus all \
+    --env DISPLAY=$DISPLAY \
+    --env OPENAI_API_KEY=$OPENAI_API_KEY \
+    --volume /tmp/.X11-unix:/tmp/.X11-unix \
+    --volume $HOME/ros2_ws:/ros2_ws \
+    physical-ai-course:humble
+```
+
+---
+
+## Quick Reference: Environment Variables
+
+Create a `.env` file in your workspace root and load it in `.bashrc`:
+
+```bash
+# ~/ros2_ws/.env
+OPENAI_API_KEY=sk-your-key-here
+RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+TURTLEBOT3_MODEL=waffle
+ROS_DOMAIN_ID=42
+IGN_GAZEBO_RESOURCE_PATH=$HOME/ros2_ws/src
+```
+
+```bash
+# Add to ~/.bashrc to auto-load .env
+set -a && source ~/ros2_ws/.env && set +a
+```
+
+:::warning
+Never commit your `.env` file to version control. Add `.env` to your `.gitignore`:
+```bash
+echo ".env" >> ~/ros2_ws/.gitignore
+```
+:::
+
+---
+
+## Verification Checklist
+
+After completing all installation steps, run this verification script:
+
+```bash
+#!/bin/bash
+# verify_setup.sh — Run from ~/ros2_ws after sourcing ROS 2
+
+echo "=== Physical AI Course Environment Verification ==="
+
+echo -n "ROS 2 Humble: "
+ros2 --version 2>/dev/null | grep -q "0.18" && echo "OK" || echo "MISSING"
+
+echo -n "Gazebo Ignition: "
+ign gazebo --version 2>/dev/null | grep -q "6." && echo "OK" || echo "MISSING"
+
+echo -n "Nav2: "
+ros2 pkg list 2>/dev/null | grep -q "nav2_bringup" && echo "OK" || echo "MISSING"
+
+echo -n "MoveIt 2: "
+ros2 pkg list 2>/dev/null | grep -q "moveit_ros" && echo "OK" || echo "MISSING"
+
+echo -n "Python OpenAI: "
+python3 -c "import openai" 2>/dev/null && echo "OK" || echo "MISSING"
+
+echo -n "Python Whisper: "
+python3 -c "import whisper" 2>/dev/null && echo "OK" || echo "MISSING"
+
+echo -n "CUDA Available: "
+python3 -c "import torch; print('OK' if torch.cuda.is_available() else 'GPU NOT DETECTED')"
+
+echo -n "NVIDIA Driver: "
+nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null && echo " (above)" || echo "MISSING"
+
+echo "=== Verification Complete ==="
+```
+
+```bash
+chmod +x verify_setup.sh
+./verify_setup.sh
+```
+
+All entries should show "OK". If any show "MISSING", revisit the corresponding installation section.

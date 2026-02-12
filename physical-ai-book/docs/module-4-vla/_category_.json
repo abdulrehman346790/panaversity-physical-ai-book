@@ -1,0 +1,9 @@
+{
+  "label": "Module 4: Vision-Language-Action (VLA)",
+  "position": 5,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Connect language models to robot actions. Build voice-controlled robots with cognitive planning capabilities."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "label": "Module 2: The Digital Twin (Gazebo & Unity)",
+  "position": 3,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Build virtual worlds for your robots. Simulate physics, sensors, and environments using Gazebo and Unity."
+  }
+}

@@ -1,0 +1,95 @@
+/**
+ * Physical AI & Humanoid Robotics Textbook
+ * Custom theme styles
+ */
+
+:root {
+  --ifm-color-primary: #1a73e8;
+  --ifm-color-primary-dark: #1765d0;
+  --ifm-color-primary-darker: #165fc4;
+  --ifm-color-primary-darkest: #124ea2;
+  --ifm-color-primary-light: #2d80eb;
+  --ifm-color-primary-lighter: #3987ec;
+  --ifm-color-primary-lightest: #5d9df0;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #4da6ff;
+  --ifm-color-primary-dark: #2e97ff;
+  --ifm-color-primary-darker: #1f8fff;
+  --ifm-color-primary-darkest: #0076e6;
+  --ifm-color-primary-light: #6cb5ff;
+  --ifm-color-primary-lighter: #7bbdff;
+  --ifm-color-primary-lightest: #a9d5ff;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* RTL support for Urdu translation feature */
+.chapter-content[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+.chapter-content[dir="rtl"] code,
+.chapter-content[dir="rtl"] pre {
+  direction: ltr;
+  text-align: left;
+}
+
+.chapter-content[dir="rtl"] .admonition {
+  border-left: none;
+  border-right: 4px solid var(--ifm-color-primary);
+  padding-right: 1rem;
+}
+
+/* Chapter action buttons container */
+.chapter-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.chapter-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--ifm-color-primary);
+  background: transparent;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.chapter-actions button:hover {
+  background: var(--ifm-color-primary);
+  color: white;
+}
+
+.chapter-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive code blocks */
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .chapter-actions {
+    flex-direction: column;
+  }
+
+  .chapter-actions button {
+    width: 100%;
+  }
+}
