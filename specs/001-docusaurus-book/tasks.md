@@ -156,15 +156,15 @@
 **Purpose**: Final quality improvements across all chapters
 
 - [X] T041 Run full site build with `npm run build` and verify zero broken links, zero warnings
-- [ ] T042 Verify search functionality: build site, test keyword search returns relevant chapters
+- [X] T042 Verify search functionality: build site, test keyword search returns relevant chapters
 - [ ] T043 [P] Test responsive layout at 375px, 768px, and 1440px viewport widths for all chapter types
 - [ ] T044 [P] Verify dark mode rendering: all code blocks, Mermaid diagrams, admonitions, and tables readable in dark mode
-- [ ] T045 [P] Verify all Mermaid diagrams render correctly across all chapters (no syntax errors)
-- [ ] T046 [P] Verify all code blocks have language tags, syntax highlighting works, copy button functional
-- [ ] T047 Add `static/img/favicon.ico` and `static/img/logo.svg` for site branding
+- [X] T045 [P] Verify all Mermaid diagrams render correctly across all chapters (no syntax errors)
+- [X] T046 [P] Verify all code blocks have language tags, syntax highlighting works, copy button functional
+- [X] T047 Add `static/img/favicon.ico` and `static/img/logo.svg` for site branding
 - [X] T048 Review and finalize `docs/intro.md` to ensure it references all modules and provides a complete course roadmap
 - [ ] T049 Run content-qa agent review on 3 representative chapters (one from Module 1, one from Module 3, one from Module 4) to verify grade B or above
-- [ ] T050 Final `npm run build` and verify deployment workflow by pushing to GitHub and confirming GitHub Pages site is live
+- [X] T050 Final `npm run build` and verify deployment workflow by pushing to GitHub and confirming GitHub Pages site is live
 
 ---
 
