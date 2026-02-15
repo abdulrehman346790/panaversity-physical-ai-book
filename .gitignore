@@ -28,3 +28,10 @@ yarn-debug.log*
 __pycache__/
 *.pyc
 .venv/
+venv/
+*.egg-info/
+dist/
+
+# Chatbot
+chatbot/sessions.db
+chatbot/.env
