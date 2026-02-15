@@ -212,6 +212,8 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 ## Active Technologies
 - JavaScript/Node.js 20 LTS, MDX v3 + Docusaurus 3.9.x, @docusaurus/theme-mermaid, docusaurus-search-local (001-docusaurus-book)
 - N/A (static site, content stored as MDX files in Git) (001-docusaurus-book)
+- Python 3.11+ (backend), JavaScript/React (frontend widget) + `openai-agents[litellm]` v0.8+, FastAPI, `qdrant-client`, `openai`, `langchain-text-splitters` (002-rag-chatbot)
+- Qdrant Cloud (vectors), Neon Serverless Postgres (ingestion records), SQLite (conversation sessions via SDK) (002-rag-chatbot)
 
 ## Recent Changes
 - 001-docusaurus-book: Added JavaScript/Node.js 20 LTS, MDX v3 + Docusaurus 3.9.x, @docusaurus/theme-mermaid, docusaurus-search-local

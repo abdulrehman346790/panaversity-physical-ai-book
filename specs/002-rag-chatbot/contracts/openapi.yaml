@@ -1,0 +1,246 @@
+openapi: 3.1.0
+info:
+  title: Physical AI Textbook RAG Chatbot API
+  description: Backend API for the RAG chatbot serving the Physical AI & Humanoid Robotics textbook
+  version: 1.0.0
+
+servers:
+  - url: https://{host}/api
+    description: Production server
+    variables:
+      host:
+        default: your-app.railway.app
+
+paths:
+  /chat/stream:
+    post:
+      operationId: chatStream
+      summary: Streaming chat (SSE)
+      description: |
+        Send a message and receive a streaming response via Server-Sent Events.
+        The stream emits events of type: delta (text chunk), tool_call (search indicator), done (completion).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: SSE stream of chat response
+          content:
+            text/event-stream:
+              schema:
+                type: string
+                description: |
+                  SSE events in format: data: {"type": "delta"|"tool_call"|"done", "content": "..."}
+                examples:
+                  - 'data: {"type": "delta", "content": "ROS 2 "}'
+                  - 'data: {"type": "tool_call", "tool": "search_docs"}'
+                  - 'data: {"type": "done"}'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /chat:
+    post:
+      operationId: chat
+      summary: Non-streaming chat
+      description: Send a message and receive a complete response (no streaming).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Chat response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '422':
+          description: Validation error
+
+  /chat/selected:
+    post:
+      operationId: chatSelected
+      summary: Selected text Q&A
+      description: Answer a question about text the user selected on the book page.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectedTextRequest'
+      responses:
+        '200':
+          description: Response about the selected text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '422':
+          description: Validation error
+
+  /ingest:
+    post:
+      operationId: ingestContent
+      summary: Trigger content ingestion
+      description: |
+        Parse, chunk, embed, and store all MDX chapter files from the textbook.
+        Re-ingestion replaces existing content for each chapter (no duplicates).
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestRequest'
+      responses:
+        '200':
+          description: Ingestion result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestResponse'
+        '500':
+          description: Ingestion failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Health check
+      description: Check if the backend, Qdrant, and LLM model are operational.
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: Service unhealthy
+
+components:
+  schemas:
+    ChatRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          maxLength: 2000
+          description: The student's question or message
+          example: "What is the difference between ROS 2 topics and services?"
+        session_id:
+          type: string
+          description: Client-generated session UUID for conversation continuity
+          default: "default"
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    SelectedTextRequest:
+      type: object
+      required:
+        - selected_text
+        - question
+      properties:
+        selected_text:
+          type: string
+          maxLength: 5000
+          description: The text the student highlighted on the page
+          example: "A ROS 2 node is a fundamental building block..."
+        question:
+          type: string
+          maxLength: 2000
+          description: The student's question about the selected text
+          example: "Explain this in simpler terms"
+        session_id:
+          type: string
+          default: "default"
+
+    ChatResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          description: The chatbot's complete response text
+
+    IngestRequest:
+      type: object
+      properties:
+        docs_path:
+          type: string
+          description: Path to the docs directory (defaults to configured path)
+          default: "physical-ai-book/docs"
+
+    IngestResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [completed, failed]
+        chapters_processed:
+          type: integer
+          example: 16
+        chunks_created:
+          type: integer
+          example: 450
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              file:
+                type: string
+              error:
+                type: string
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        qdrant:
+          type: boolean
+          description: Whether Qdrant Cloud is reachable
+        model:
+          type: string
+          description: Currently configured LLM model identifier
+        chunks_count:
+          type: integer
+          description: Number of chunks in the vector store
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        detail:
+          type: string
+
+    ValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            properties:
+              loc:
+                type: array
+                items:
+                  type: string
+              msg:
+                type: string
+              type:
+                type: string
