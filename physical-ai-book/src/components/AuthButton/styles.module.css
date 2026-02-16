@@ -1,0 +1,97 @@
+.authContainer {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.authButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.signInButton,
+.signUpButton,
+.signOutButton {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.signInButton {
+  background: transparent;
+  color: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+}
+
+.signInButton:hover {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.signUpButton {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.signUpButton:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+.signOutButton {
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+.signOutButton:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatarButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+
+.avatarButton:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  .authContainer {
+    top: 8px;
+    right: 8px;
+  }
+
+  .signInButton,
+  .signUpButton {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

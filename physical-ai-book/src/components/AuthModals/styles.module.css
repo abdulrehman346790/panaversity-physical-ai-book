@@ -1,0 +1,139 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background: var(--ifm-background-color, #fff);
+  border-radius: 12px;
+  padding: 32px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--ifm-color-emphasis-600);
+  padding: 4px;
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: var(--ifm-color-emphasis-900);
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: var(--ifm-color-emphasis-600);
+  font-size: 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.field input {
+  padding: 10px 12px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--ifm-background-surface-color, #fff);
+  color: var(--ifm-font-color-base);
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.error {
+  color: #dc2626;
+  font-size: 13px;
+  margin: 0;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border-radius: 6px;
+  border: 1px solid #fecaca;
+}
+
+.submitButton {
+  padding: 10px 16px;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.switchText {
+  text-align: center;
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.switchLink {
+  background: none;
+  border: none;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.switchLink:hover {
+  color: var(--ifm-color-primary-dark);
+}

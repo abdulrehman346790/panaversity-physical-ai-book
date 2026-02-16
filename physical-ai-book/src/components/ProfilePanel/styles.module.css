@@ -1,0 +1,228 @@
+.panel {
+  position: fixed;
+  top: 50px;
+  right: 16px;
+  width: 360px;
+  max-height: 70vh;
+  overflow-y: auto;
+  background: var(--ifm-background-color, #fff);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  z-index: 1999;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color, #fafafa);
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--ifm-color-emphasis-600);
+  padding: 2px;
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: var(--ifm-color-emphasis-900);
+}
+
+.content {
+  padding: 16px;
+}
+
+.section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-900);
+}
+
+.editButton {
+  background: transparent;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  gap: 12px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+  flex-shrink: 0;
+}
+
+.value {
+  font-size: 13px;
+  color: var(--ifm-font-color-base);
+  text-align: right;
+  flex: 1;
+}
+
+.field select {
+  padding: 6px 8px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  font-size: 13px;
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  width: 100%;
+}
+
+.field select:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.viewForm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loading {
+  font-size: 13px;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  text-align: center;
+  padding: 16px;
+}
+
+.notCompleted {
+  font-size: 13px;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+  padding: 12px;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 4px;
+}
+
+.completeLink {
+  background: none;
+  border: none;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.completeLink:hover {
+  color: var(--ifm-color-primary-dark);
+}
+
+.error {
+  color: #dc2626;
+  font-size: 12px;
+  padding: 8px;
+  background: #fef2f2;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+  margin: 8px 0 0;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.saveButton,
+.cancelButton {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.saveButton {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+}
+
+.cancelButton {
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-emphasis-900);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: var(--ifm-color-emphasis-300);
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    width: 85vw;
+    right: 7.5vw;
+    max-height: 60vh;
+  }
+}
