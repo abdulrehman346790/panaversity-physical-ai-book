@@ -1,0 +1,252 @@
+---
+id: personalization-test
+title: Personalization Test Chapter
+sidebar_label: "Test: Personalization"
+description: Test chapter demonstrating content personalization with variants for different experience levels
+---
+
+import { ContentVariant } from '@site/src/components/ContentVariant';
+
+# Personalization Test Chapter
+
+This chapter demonstrates the content personalization feature with variants for:
+- **Explanations** by experience level (beginner, intermediate, advanced)
+- **Code examples** by language (Python, C++, ROS 2)
+- **Exercises** by hardware background (sensor, robot)
+
+Toggle the "Personalize Content" button at the top-right to see how content adapts to your background profile.
+
+---
+
+## Section 1: Understanding ROS 2
+
+### Explanation Variants
+
+<ContentVariant type="explanation" level="beginner">
+**Beginner Explanation:**
+
+ROS 2 (Robot Operating System 2) is a software framework for building robot applications. Think of it as a middle layer (middleware) that helps different parts of your robot communicate with each other, like a translator between the robot's sensors, controllers, and actuators.
+
+Key concepts:
+- **Nodes**: Individual programs or processes that run on the robot
+- **Topics**: Communication channels where nodes send and receive messages
+- **Messages**: Data packets that are published and subscribed to
+- **Services**: Request-response patterns for synchronous communication
+- **Actions**: Long-running tasks where you can monitor progress
+
+ROS 2 is built on top of DDS (Data Distribution Service), which provides the underlying networking.
+</ContentVariant>
+
+<ContentVariant type="explanation" level="intermediate">
+**Intermediate Explanation:**
+
+ROS 2 is a middleware framework providing a publish-subscribe messaging architecture for distributed robotics applications. It abstracts hardware interfaces and enables node-to-node communication through a type-safe, serialized message protocol.
+
+Core components:
+- **rcl (ROS Client Library)**: Low-level C API for ROS 2 functionality
+- **rclcpp/rclpy**: C++ and Python bindings for rcl
+- **DDS**: Underlying QoS-aware network transport with discovery
+- **rmw (ROS Middleware Interface)**: Abstraction layer for different DDS implementations
+- **Node Graph**: Dynamic graph of interconnected nodes with pub/sub relationships
+- **Parameter Server**: Dynamic configuration management across nodes
+
+ROS 2 emphasizes real-time performance, determinism, and security through QoS policies and DDS middleware.
+</ContentVariant>
+
+<ContentVariant type="explanation" level="advanced">
+**Advanced Explanation:**
+
+ROS 2 implements a distributed actor model using DDS as the underlying middleware, providing configurable Quality-of-Service (QoS) policies for communication reliability, latency, and durability. The architecture separates the ROS Client Library (rcl) from specific implementations via the Middleware Interface (rmw).
+
+Advanced topics:
+- **QoS Profiles**: Reliability (best-effort vs reliable), History (keep-last vs keep-all), Durability (transient vs persistent)
+- **Executors**: Single-threaded, multi-threaded, and event-driven execution models for callback scheduling
+- **Intra-process Communication**: Zero-copy message passing between nodes in the same process
+- **DDS Discovery**: Lease-based participant discovery with graph topology management
+- **Timing and Synchronization**: Clock abstraction supporting simulation time and wall-clock time
+- **Security Governance**: DDS-Security integration with PKI and access control policies
+
+Performance considerations include minimizing callback latency, managing executor thread pools, and tuning DDS transport parameters for deterministic behavior in hard real-time systems.
+</ContentVariant>
+
+---
+
+## Section 2: Sensor Interface Implementation
+
+### Code Example Variants
+
+<ContentVariant type="code_example" language="python">
+**Python Implementation:**
+
+```python
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Range
+
+class SensorReaderNode(Node):
+    def __init__(self):
+        super().__init__('sensor_reader')
+        self.publisher = self.create_publisher(Range, 'sensor/distance', 10)
+        self.timer = self.create_timer(0.1, self.read_sensor_callback)
+        self.get_logger().info('Sensor reader node started')
+
+    def read_sensor_callback(self):
+        msg = Range()
+        msg.range = self.read_distance()
+        self.publisher.publish(msg)
+
+    def read_distance(self):
+        # Simulate sensor reading
+        return 1.5
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = SensorReaderNode()
+    rclpy.spin(node)
+
+if __name__ == '__main__':
+    main()
+```
+</ContentVariant>
+
+<ContentVariant type="code_example" language="cpp">
+**C++ Implementation:**
+
+```cpp
+#include <rclcpp/rclcpp.hpp>
+#include <sensor_msgs/msg/range.hpp>
+
+class SensorReaderNode : public rclcpp::Node {
+public:
+  SensorReaderNode() : Node("sensor_reader") {
+    publisher_ = this->create_publisher<sensor_msgs::msg::Range>(
+      "sensor/distance", 10);
+    timer_ = this->create_wall_timer(
+      std::chrono::milliseconds(100),
+      std::bind(&SensorReaderNode::read_sensor_callback, this));
+    RCLCPP_INFO(this->get_logger(), "Sensor reader node started");
+  }
+
+private:
+  void read_sensor_callback() {
+    auto msg = std::make_unique<sensor_msgs::msg::Range>();
+    msg->range = read_distance();
+    publisher_->publish(std::move(msg));
+  }
+
+  float read_distance() {
+    return 1.5f; // Simulate sensor reading
+  }
+
+  rclcpp::Publisher<sensor_msgs::msg::Range>::SharedPtr publisher_;
+  rclcpp::TimerBase::SharedPtr timer_;
+};
+
+int main(int argc, char * argv[]) {
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<SensorReaderNode>());
+  rclcpp::shutdown();
+  return 0;
+}
+```
+</ContentVariant>
+
+<ContentVariant type="code_example" language="ros2">
+**ROS 2 Launch File:**
+
+```xml
+<?xml version="1.0"?>
+<launch>
+  <node
+    pkg="robot_sensors"
+    exec="sensor_reader"
+    name="sensor_reader"
+    output="screen">
+    <param name="update_rate" value="10.0" />
+    <param name="sensor_port" value="/dev/ttyUSB0" />
+  </node>
+</launch>
+```
+</ContentVariant>
+
+---
+
+## Section 3: Practical Exercises
+
+### Exercise Variants
+
+<ContentVariant type="exercise" hardware="sensor">
+**Sensor-Focused Exercise:**
+
+**Task**: Build a simple distance monitoring application
+
+1. Create a ROS 2 node that reads from a simulated ultrasonic sensor
+2. Publish range measurements to a `/distance` topic at 10 Hz
+3. Add a subscriber node that logs warnings when distance < 0.5 m
+4. Test with the provided sensor simulator
+
+**Deliverables**:
+- Two ROS 2 nodes (publisher and subscriber)
+- Sensor data logged to console
+- Evidence of successful publication/subscription
+
+**Resources**:
+- [sensor_msgs/Range message definition](http://docs.ros.org/en/humble/p/sensor_msgs/interfaces/msg/Range.html)
+- ROS 2 publisher/subscriber tutorial
+</ContentVariant>
+
+<ContentVariant type="exercise" hardware="robot">
+**Robot-Focused Exercise:**
+
+**Task**: Implement robot motion control with sensor feedback
+
+1. Create a ROS 2 node that commands a robot arm to reach a target position
+2. Subscribe to joint encoder feedback from the robot's sensors
+3. Implement a simple PID controller to track the target position
+4. Visualize the robot trajectory in RViz
+
+**Deliverables**:
+- Robot controller node with feedback loop
+- RViz visualization showing arm trajectory
+- Performance metrics (settling time, steady-state error)
+
+**Resources**:
+- [trajectory_msgs for motion planning](http://docs.ros.org/en/humble/p/trajectory_msgs/)
+- ROS 2 control framework documentation
+- RViz visualization guide
+</ContentVariant>
+
+<ContentVariant type="exercise" hardware="mixed">
+**Mixed Hardware Exercise:**
+
+**Task**: Build an integrated system combining sensors and robot actuation
+
+1. Create a system where a sensor detects an object
+2. When detected, the robot arm moves to pick up the object
+3. Implement a state machine: Idle → Detecting → Moving → Grasping → Returning
+4. Add telemetry logging for system performance
+
+**Deliverables**:
+- State machine implementation
+- Integrated sensor→decision→actuator pipeline
+- System telemetry and performance logs
+- Demo video showing the full cycle
+
+**Challenge**: Add adaptive control that adjusts arm speed based on object distance
+</ContentVariant>
+
+---
+
+## Summary
+
+This test chapter demonstrates:
+- ✅ Three experience levels for explanations (beginner, intermediate, advanced)
+- ✅ Three programming languages for code examples (Python, C++, ROS 2)
+- ✅ Three hardware contexts for exercises (sensor, robot, mixed)
+
+Use the "Personalize Content" button to toggle between personalized and standard views. Your displayed content should match your background profile from the signup questionnaire.
+
+**Next Steps**:
+- Review how your experience level affects explanation depth
+- Compare code examples across languages
+- Try the exercises relevant to your hardware background
