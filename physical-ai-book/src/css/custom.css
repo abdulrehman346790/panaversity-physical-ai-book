@@ -3,6 +3,9 @@
  * Custom theme styles
  */
 
+/* Import Urdu fonts for translation feature */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Urdu:wght@400;700&family=Noto+Nastaliq+Urdu&display=swap');
+
 :root {
   --ifm-color-primary: #1a73e8;
   --ifm-color-primary-dark: #1765d0;
@@ -92,4 +95,113 @@ pre {
   .chapter-actions button {
     width: 100%;
   }
+}
+
+/* Comprehensive RTL content wrapper for translation feature */
+.rtl-content {
+  direction: rtl;
+  text-align: auto;
+  font-family: 'Noto Sans Urdu', 'Urdu Typesetting', 'Segoe UI', system-ui,
+    -apple-system, sans-serif;
+}
+
+.rtl-content h1,
+.rtl-content h2,
+.rtl-content h3,
+.rtl-content h4,
+.rtl-content h5,
+.rtl-content h6 {
+  text-align: right;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.rtl-content p {
+  text-align: justify;
+  line-height: 1.8;
+}
+
+.rtl-content ul,
+.rtl-content ol {
+  margin-right: 2rem;
+  margin-left: 0;
+  padding-right: 2rem;
+  padding-left: 0;
+}
+
+.rtl-content li {
+  margin-bottom: 0.5rem;
+}
+
+.rtl-content blockquote {
+  border-right: 4px solid var(--ifm-color-primary);
+  border-left: none;
+  padding-right: 1rem;
+  padding-left: 0;
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+.rtl-content table {
+  direction: rtl;
+  text-align: right;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.rtl-content th,
+.rtl-content td {
+  text-align: right;
+  padding: 0.75rem;
+}
+
+/* Code blocks always LTR in RTL content */
+.rtl-content code,
+.rtl-content pre {
+  direction: ltr;
+  text-align: left;
+  font-family: 'Courier New', monospace;
+}
+
+.rtl-content .codeBlockLines_node_modules-\@docusaurus-theme-classic-lib-theme-CodeBlock-Container-styles-module {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Links in RTL */
+.rtl-content a {
+  color: var(--ifm-color-primary);
+  text-decoration: underline;
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.rtl-content a:hover {
+  opacity: 0.8;
+}
+
+/* Emphasis in RTL */
+.rtl-content strong,
+.rtl-content b {
+  font-weight: 700;
+}
+
+.rtl-content em,
+.rtl-content i {
+  font-style: italic;
+}
+
+/* Code inline in RTL text */
+.rtl-content :not(pre) > code {
+  direction: ltr;
+  text-align: left;
+  display: inline;
+  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  font-size: 0.95em;
+}
+
+[data-theme='dark'] .rtl-content :not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.1);
 }

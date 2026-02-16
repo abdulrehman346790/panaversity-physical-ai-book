@@ -1,0 +1,10 @@
+{
+  "chapter_id": "02-rclpy-basics",
+  "language": "urdu",
+  "title": "rclpy کے بنیادی اصول",
+  "content": "<h2>rclpy کا تعارف</h2><p>rclpy ایک Python client library ہے جو ROS 2 کے ساتھ کام کرنے کے لیے استعمال ہوتی ہے۔ اس سے آپ Python میں ROS 2 applications لکھ سکتے ہیں۔</p><h3>ایک سادہ rclpy پروگرام</h3><p>یہاں ایک سادہ مثال ہے:</p><pre><code>import rclpy<br>from rclpy.node import Node<br><br>class SimpleNode(Node):<br>    def __init__(self):<br>        super().__init__('simple_node')<br>        self.get_logger().info('Node started')<br><br>def main():<br>    rclpy.init()<br>    node = SimpleNode()<br>    rclpy.spin(node)<br>    rclpy.shutdown()<br><br>if __name__ == '__main__':<br>    main()</code></pre><h3>کوڈ کی وضاحت</h3><p>اوپر دیے گئے کوڈ میں:</p><ul><li>ہم rclpy کو import کرتے ہیں</li><li>ایک Node کلاس بناتے ہیں</li><li>رملpublish اور subscribe کے لیے سیٹ اپ کرتے ہیں</li><li>spin() استعمال کرتے ہوئے node کو چلاتے ہیں</li></ul>",
+  "translation_status": "complete",
+  "last_updated": "2026-02-16T12:00:00Z",
+  "translator": "Urdu Localization Team",
+  "whitelist_applied": true
+}

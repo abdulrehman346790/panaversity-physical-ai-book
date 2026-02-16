@@ -1,0 +1,20 @@
+{
+  "chapter_id": "01-introduction-to-ros2",
+  "language": "urdu",
+  "title": "ROS 2 میں تعارف",
+  "content": "<h2>ROS 2 کیا ہے؟</h2><p>ROS 2 (Robot Operating System 2) ایک middleware ہے جو روبوٹ میں مختلف حصوں کو آپس میں رابطہ کرنے میں مدد کرتا ہے۔ یہ مختلف sensors، motors اور کمپیوٹنگ ماڈیولز کے درمیان ڈیٹا کی منتقلی کو سہل بناتا ہے۔</p><h3>ROS 2 کے اہم خصوصیات</h3><ul><li><strong>موثر رابطہ</strong>: مختلف نوڈز کے درمیان تیزی سے ڈیٹا کی منتقلی</li><li><strong>لچکدار نقل و انتقال</strong>: مختلف middleware کو استعمال کر سکتے ہیں</li><li><strong>سیکیورٹی</strong>: بہتر شدہ سیکیورٹی خصوصیات</li><li><strong>اعلیٰ کارکردگی</strong>: بہتر شدہ کارکردگی اور latency کنٹرول</li></ul><h3>ROS 2 کی بنیادی تصورات</h3><p>ROS 2 میں کئی اہم تصورات ہیں:</p><ul><li><strong>Node</strong>: ایک عمل جو مخصوص کام انجام دے سکتا ہے</li><li><strong>Topic</strong>: ایک چینل جس سے نوڈز messages بھیجتے اور وصول کرتے ہیں</li><li><strong>Service</strong>: ایک request-reply نقل و انتقال کا نمونہ</li><li><strong>Parameter</strong>: کسی نوڈ کی ترتیبات</li></ul><h2>ROS 2 کے فوائد</h2><p>ROS 2 بہت سے فوائد فراہم کرتا ہے:</p><ol><li>برتری شدہ رابطہ نظام</li><li>بہتری شدہ سیکیورٹی</li><li>لچکدار نقل و انتقال</li><li>بہتری شدہ کارکردگی</li><li>وسیع تر کمیونٹی اور معاون</li></ol><p>اگلے اقسام میں، ہم rclpy استعمال کرتے ہوئے ROS 2 میں بنیادی پروگرام لکھنا سیکھیں گے۔</p>",
+  "sections": [
+    {
+      "heading": "ROS 2 کا تعارف",
+      "content": "<p>ROS 2 ایک طاقتور middleware ہے جو robotics میں استعمال ہوتا ہے۔</p>"
+    },
+    {
+      "heading": "اہم تصورات",
+      "content": "<p>Node، Topic، Service اور Parameters ROS 2 کی بنیادی تصورات ہیں۔</p>"
+    }
+  ],
+  "translation_status": "complete",
+  "last_updated": "2026-02-16T12:00:00Z",
+  "translator": "Urdu Localization Team",
+  "whitelist_applied": true
+}

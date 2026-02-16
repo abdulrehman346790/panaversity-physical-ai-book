@@ -1,0 +1,165 @@
+/**
+ * TranslationButton Styles
+ * Responsive button styling with RTL-aware positioning
+ */
+
+.button {
+  font-family: 'Noto Sans Urdu', 'Urdu Typesetting', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  user-select: none;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+  background-color: #004085;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button:focus {
+  outline: 2px solid #0056b3;
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Button variants */
+.default {
+  background-color: #007bff;
+}
+
+.default:hover {
+  background-color: #0056b3;
+}
+
+.minimal {
+  background-color: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+  box-shadow: none;
+}
+
+.minimal:hover {
+  background-color: #e7f1ff;
+  border-color: #0056b3;
+  color: #0056b3;
+}
+
+/* Button positioning */
+.fixed {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+}
+
+.inline {
+  position: relative;
+}
+
+/* Text styling */
+.text {
+  display: inline-block;
+  padding: 0 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .button {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-height: 40px;
+    min-width: 40px;
+  }
+
+  .text {
+    padding: 0 4px;
+  }
+
+  .fixed {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .button {
+    padding: 6px 10px;
+    font-size: 11px;
+    min-height: 36px;
+    min-width: 36px;
+  }
+
+  .text {
+    padding: 0 2px;
+  }
+
+  .fixed {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/* RTL Support for button positioning */
+@media (prefers-reduced-motion) {
+  .button {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .button {
+    border: 2px solid currentColor;
+  }
+
+  .minimal {
+    border: 2px solid #007bff;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .button {
+    background-color: #0d6efd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .button:hover {
+    background-color: #0b5ed7;
+  }
+
+  .minimal {
+    border-color: #0d6efd;
+    color: #0d6efd;
+  }
+
+  .minimal:hover {
+    background-color: rgba(13, 110, 253, 0.15);
+    border-color: #0b5ed7;
+    color: #0b5ed7;
+  }
+}
