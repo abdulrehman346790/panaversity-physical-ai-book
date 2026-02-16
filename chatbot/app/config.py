@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     free_model_id: str = "cerebras/llama-3.3-70b"
     cors_origins: str = "http://localhost:3000"
     embedding_model: str = "text-embedding-3-small"
+    use_ollama: bool = False
+    ollama_url: str = "http://localhost:11434"
+    ollama_embedding_model: str = "nomic-embed-text"
 
     @property
     def cors_origin_list(self) -> list[str]:

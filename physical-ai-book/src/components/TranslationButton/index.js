@@ -24,7 +24,17 @@ export function TranslationButton({
   position = 'fixed',
   onToggle = null,
 } = {}) {
-  const { language, toggleLanguage } = useTranslation();
+  // Only render on chapter pages (check if we're in a docs page)
+  if (typeof window !== 'undefined') {
+    const path = window.location.pathname;
+    const isChapterPage = path.includes('/docs/') || path.includes('/module-');
+    if (!isChapterPage) {
+      return null;
+    }
+  }
+
+  try {
+    const { language, toggleLanguage } = useTranslation();
 
   const handleClick = useCallback(() => {
     toggleLanguage();
@@ -48,18 +58,22 @@ export function TranslationButton({
     .filter(Boolean)
     .join(' ');
 
-  return (
-    <button
-      className={combinedClassName}
-      onClick={handleClick}
-      aria-label={ariaLabel}
-      title={ariaLabel}
-      type="button"
-      aria-pressed={language === 'urdu'}
-    >
-      <span className={styles.text}>{buttonText}</span>
-    </button>
-  );
+    return (
+      <button
+        className={combinedClassName}
+        onClick={handleClick}
+        aria-label={ariaLabel}
+        title={ariaLabel}
+        type="button"
+        aria-pressed={language === 'urdu'}
+      >
+        <span className={styles.text}>{buttonText}</span>
+      </button>
+    );
+  } catch (error) {
+    console.warn('TranslationButton error:', error);
+    return null;
+  }
 }
 
 export default TranslationButton;

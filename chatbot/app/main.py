@@ -25,8 +25,11 @@ if settings.groq_api_key:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: initialize clients
-    qdrant = AsyncQdrantClient(url=settings.qdrant_url, api_key=settings.qdrant_api_key)
-    openai_client = AsyncOpenAI(api_key=settings.openai_api_key)
+    qdrant = AsyncQdrantClient(url=settings.qdrant_url, api_key=settings.qdrant_api_key, timeout=10.0)
+    # OpenAI client is optional - we use LiteLLM/Cerebras for LLM
+    openai_client = None
+    if settings.openai_api_key:
+        openai_client = AsyncOpenAI(api_key=settings.openai_api_key)
 
     app.state.ctx = AppContext(qdrant=qdrant, openai=openai_client)
 
