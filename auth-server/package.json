@@ -1,0 +1,22 @@
+{
+  "name": "physical-ai-auth-server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Authentication server for Physical AI textbook using better-auth",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "migrate": "npx @better-auth/cli migrate"
+  },
+  "dependencies": {
+    "better-auth": "^1.4.0",
+    "express": "^4.21.0",
+    "pg": "^8.13.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "@better-auth/cli": "^1.4.0"
+  }
+}

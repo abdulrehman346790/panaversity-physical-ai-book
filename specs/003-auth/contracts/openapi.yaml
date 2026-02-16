@@ -1,0 +1,241 @@
+openapi: "3.1.0"
+info:
+  title: Auth & Profile API (003-auth)
+  version: "1.0.0"
+  description: |
+    Authentication server for the Physical AI textbook.
+    better-auth handles /api/auth/* routes automatically.
+    Custom routes handle questionnaire profile data.
+
+servers:
+  - url: http://localhost:3001
+    description: Local auth server
+  - url: https://auth.example.com
+    description: Production auth server
+
+paths:
+  /api/auth/sign-up/email:
+    post:
+      summary: Create a new account (better-auth managed)
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, name]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+                name:
+                  type: string
+      responses:
+        "200":
+          description: Account created, session cookie set
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Validation error or email already exists
+
+  /api/auth/sign-in/email:
+    post:
+      summary: Sign in with email and password (better-auth managed)
+      tags: [Authentication]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Signed in, session cookie set
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+
+  /api/auth/sign-out:
+    post:
+      summary: Sign out and clear session (better-auth managed)
+      tags: [Authentication]
+      responses:
+        "200":
+          description: Session cleared
+
+  /api/auth/get-session:
+    get:
+      summary: Get current session and user (better-auth managed)
+      tags: [Authentication]
+      responses:
+        "200":
+          description: Current session data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+        "401":
+          description: No active session
+
+  /api/profile/questionnaire:
+    get:
+      summary: Get questionnaire responses for current user
+      tags: [Profile]
+      responses:
+        "200":
+          description: Questionnaire data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionnaireResponse"
+        "401":
+          description: Not authenticated
+    post:
+      summary: Save questionnaire responses (first time)
+      tags: [Profile]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestionnaireInput"
+      responses:
+        "200":
+          description: Questionnaire saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionnaireResponse"
+        "401":
+          description: Not authenticated
+    put:
+      summary: Update questionnaire responses
+      tags: [Profile]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestionnaireInput"
+      responses:
+        "200":
+          description: Questionnaire updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QuestionnaireResponse"
+        "401":
+          description: Not authenticated
+
+  /api/health:
+    get:
+      summary: Health check
+      tags: [System]
+      responses:
+        "200":
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  database:
+                    type: string
+                    example: connected
+
+components:
+  schemas:
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        session:
+          type: object
+          properties:
+            token:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+
+    SessionResponse:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        session:
+          type: object
+          properties:
+            id:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+
+    ExperienceLevel:
+      type: string
+      enum: [none, beginner, intermediate, advanced]
+
+    QuestionnaireInput:
+      type: object
+      properties:
+        python_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        cpp_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        ros2_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        robot_hardware_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        sensor_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+
+    QuestionnaireResponse:
+      type: object
+      properties:
+        python_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        cpp_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        ros2_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        robot_hardware_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        sensor_experience:
+          $ref: "#/components/schemas/ExperienceLevel"
+        questionnaire_completed:
+          type: boolean
