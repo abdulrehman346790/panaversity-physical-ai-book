@@ -33,7 +33,7 @@ export default function QuestionnaireModal() {
 
     const AUTH_SERVER_URL =
       typeof window !== "undefined" && window.location.hostname !== "localhost"
-        ? "https://auth-physical-ai.up.railway.app"
+        ? "https://AR2107927-Physical-Humanoid-Robotics-Book.hf.space"
         : "http://localhost:3001";
 
     try {
