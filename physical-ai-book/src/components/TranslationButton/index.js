@@ -36,27 +36,27 @@ export function TranslationButton({
   try {
     const { language, toggleLanguage } = useTranslation();
 
-  const handleClick = useCallback(() => {
-    toggleLanguage();
-    if (onToggle) {
-      const newLang = language === 'english' ? 'urdu' : 'english';
-      onToggle(newLang);
-    }
-  }, [language, toggleLanguage, onToggle]);
+    const handleClick = useCallback(() => {
+      toggleLanguage();
+      if (onToggle) {
+        const newLang = language === 'english' ? 'urdu' : 'english';
+        onToggle(newLang);
+      }
+    }, [language, toggleLanguage, onToggle]);
 
-  // Button text - Urdu text for when currently in English, vice versa
-  const buttonText = language === 'english' ? 'اردو میں' : 'English';
-  const ariaLabel =
-    language === 'english' ? 'Switch to Urdu' : 'Switch to English';
+    // Button text - Urdu text for when currently in English, vice versa
+    const buttonText = language === 'english' ? 'اردو میں' : 'English';
+    const ariaLabel =
+      language === 'english' ? 'Switch to Urdu' : 'Switch to English';
 
-  const combinedClassName = [
-    styles.button,
-    styles[variant],
-    styles[position],
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    const combinedClassName = [
+      styles.button,
+      styles[variant],
+      styles[position],
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
     return (
       <button

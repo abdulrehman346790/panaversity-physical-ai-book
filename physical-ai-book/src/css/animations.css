@@ -1,0 +1,357 @@
+/**
+ * Futuristic Robotics Theme - Animations
+ * Physical AI & Humanoid Robotics Textbook
+ * Feature: 006-futuristic-ui
+ */
+
+/* ============================================================
+   ROBOT ARM ANIMATIONS (T015)
+   ============================================================ */
+
+@keyframes robot-arm-move {
+  0% {
+    transform: rotate(-15deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(-15deg);
+  }
+}
+
+@keyframes robot-arm-forearm {
+  0% {
+    transform: rotate(20deg);
+  }
+  30% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(20deg);
+  }
+}
+
+@keyframes robot-arm-claw {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  40% {
+    transform: scaleX(0.7);
+  }
+  70% {
+    transform: scaleX(1.1);
+  }
+}
+
+/* ============================================================
+   HUMANOID CHARACTER ANIMATIONS (T015)
+   ============================================================ */
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scaleY(1) translateY(0);
+  }
+  50% {
+    transform: scaleY(1.03) translateY(-2px);
+  }
+}
+
+@keyframes head-bob {
+  0%, 100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+}
+
+@keyframes arm-swing-left {
+  0%, 100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes arm-swing-right {
+  0%, 100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes leg-idle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}
+
+/* ============================================================
+   FLOATING / LEVITATION ANIMATIONS (T015)
+   ============================================================ */
+
+@keyframes float-up {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  33% {
+    transform: translateY(-12px);
+  }
+  66% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+/* ============================================================
+   GLOW / PULSE ANIMATIONS (T045)
+   ============================================================ */
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: var(--shadow-glow-sm);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: var(--shadow-glow-lg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes neon-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+    text-shadow: var(--text-glow-cyan);
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+}
+
+@keyframes border-glow-pulse {
+  0%, 100% {
+    border-color: var(--color-accent-cyan);
+    box-shadow: var(--shadow-glow-sm);
+  }
+  50% {
+    border-color: var(--color-accent-magenta);
+    box-shadow: var(--shadow-glow-magenta);
+  }
+}
+
+@keyframes cyan-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.7), 0 0 40px rgba(0, 212, 255, 0.3);
+  }
+}
+
+/* ============================================================
+   PAGE / SECTION TRANSITIONS (T046)
+   ============================================================ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-fast {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================================
+   PARTICLE / CIRCUIT ANIMATIONS
+   ============================================================ */
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(90vh) translateX(5px) scale(1);
+  }
+  90% {
+    opacity: 0.6;
+    transform: translateY(10vh) translateX(-5px) scale(0.8);
+  }
+  100% {
+    transform: translateY(0) translateX(0) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes circuit-trace {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.6;
+  }
+}
+
+@keyframes data-stream {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   SCAN LINE EFFECT
+   ============================================================ */
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes hologram-glitch {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+  20% {
+    clip-path: inset(30% 0 50% 0);
+    transform: translateX(-2px);
+  }
+  40% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translateX(2px);
+  }
+  60% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translateX(-1px);
+  }
+  80% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translateX(1px);
+  }
+}
+
+/* ============================================================
+   LOADING / SPINNER ANIMATIONS
+   ============================================================ */
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+/* ============================================================
+   PREFERS REDUCED MOTION - Accessibility (T026, T053)
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Preserve essential visibility */
+  .robotArm,
+  .humanoid,
+  .particle,
+  .circuitBg {
+    animation: none !important;
+    transform: none !important;
+  }
+}

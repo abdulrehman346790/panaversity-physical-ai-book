@@ -43,7 +43,8 @@ async def lifespan(app: FastAPI):
 
     # Shutdown: close clients
     await qdrant.close()
-    await openai_client.close()
+    if openai_client:
+        await openai_client.close()
 
 
 app = FastAPI(
@@ -55,8 +56,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 

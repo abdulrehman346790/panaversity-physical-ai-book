@@ -1,0 +1,134 @@
+/**
+ * Futuristic Robotics Theme - CSS Custom Properties
+ * Physical AI & Humanoid Robotics Textbook
+ * Feature: 006-futuristic-ui
+ */
+
+/* ============================================================
+   COLOR VARIABLES
+   ============================================================ */
+:root {
+  /* Background Colors */
+  --color-bg-dark: #0a0e27;
+  --color-bg-darker: #060918;
+  --color-bg-card: #0f1535;
+  --color-bg-overlay: rgba(10, 14, 39, 0.95);
+
+  /* Accent Colors */
+  --color-accent-cyan: #00d4ff;
+  --color-accent-magenta: #ff006e;
+  --color-accent-green: #00ff41;
+  --color-accent-yellow: #ffd700;
+
+  /* Text Colors */
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #b0b0b0;
+  --color-text-muted: #6a7080;
+
+  /* Border Colors */
+  --color-border: rgba(0, 212, 255, 0.2);
+  --color-border-hover: rgba(0, 212, 255, 0.6);
+
+  /* ============================================================
+     SHADOW / GLOW VARIABLES
+     ============================================================ */
+
+  /* Cyan Glows */
+  --shadow-glow-sm: 0 0 8px rgba(0, 212, 255, 0.4);
+  --shadow-glow-md: 0 0 16px rgba(0, 212, 255, 0.5), 0 0 32px rgba(0, 212, 255, 0.2);
+  --shadow-glow-lg: 0 0 24px rgba(0, 212, 255, 0.6), 0 0 48px rgba(0, 212, 255, 0.3), 0 0 72px rgba(0, 212, 255, 0.1);
+
+  /* Magenta Glows */
+  --shadow-glow-magenta: 0 0 16px rgba(255, 0, 110, 0.5), 0 0 32px rgba(255, 0, 110, 0.2);
+  --shadow-glow-magenta-sm: 0 0 8px rgba(255, 0, 110, 0.4);
+
+  /* Green Glows */
+  --shadow-glow-green: 0 0 16px rgba(0, 255, 65, 0.4), 0 0 32px rgba(0, 255, 65, 0.15);
+
+  /* Text Glow */
+  --text-glow-cyan: 0 0 8px rgba(0, 212, 255, 0.8), 0 0 16px rgba(0, 212, 255, 0.4);
+  --text-glow-magenta: 0 0 8px rgba(255, 0, 110, 0.8), 0 0 16px rgba(255, 0, 110, 0.4);
+
+  /* ============================================================
+     TRANSITION TIMING VARIABLES
+     ============================================================ */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+  --transition-bounce: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+  --font-mono: 'Fira Code', 'Consolas', 'Courier New', monospace;
+  --font-display: 'Rajdhani', 'Orbitron', system-ui, sans-serif;
+
+  /* ============================================================
+     LAYOUT
+     ============================================================ */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-pill: 9999px;
+}
+
+/* ============================================================
+   DOCUSAURUS IFM VARIABLE OVERRIDES (Dark Futuristic Theme)
+   ============================================================ */
+
+/* Force dark futuristic theme as primary */
+:root,
+[data-theme='light'],
+[data-theme='dark'] {
+  /* Primary brand color - cyan */
+  --ifm-color-primary: #00d4ff;
+  --ifm-color-primary-dark: #00bfe6;
+  --ifm-color-primary-darker: #00b5d9;
+  --ifm-color-primary-darkest: #0095b3;
+  --ifm-color-primary-light: #1dd9ff;
+  --ifm-color-primary-lighter: #2adaff;
+  --ifm-color-primary-lightest: #59e3ff;
+
+  /* Background */
+  --ifm-background-color: var(--color-bg-dark);
+  --ifm-background-surface-color: var(--color-bg-card);
+  --ifm-navbar-background-color: var(--color-bg-darker);
+  --ifm-footer-background-color: var(--color-bg-darker);
+  --ifm-toc-border-color: var(--color-border);
+
+  /* Content colors */
+  --ifm-color-content: var(--color-text-primary);
+  --ifm-color-content-secondary: var(--color-text-secondary);
+
+  /* Links */
+  --ifm-link-color: var(--color-accent-cyan);
+  --ifm-link-hover-color: var(--color-accent-magenta);
+
+  /* Navbar */
+  --ifm-navbar-shadow: 0 1px 0 var(--color-border), 0 4px 16px rgba(0, 212, 255, 0.1);
+
+  /* Code blocks */
+  --ifm-code-background: var(--color-bg-darker);
+  --ifm-pre-background: var(--color-bg-darker);
+  --ifm-code-color: var(--color-accent-green);
+  --ifm-code-font-size: 90%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 212, 255, 0.1);
+
+  /* Sidebar */
+  --ifm-menu-color: var(--color-text-secondary);
+  --ifm-menu-color-active: var(--color-accent-cyan);
+  --ifm-menu-color-background-active: rgba(0, 212, 255, 0.1);
+  --ifm-menu-color-background-hover: rgba(0, 212, 255, 0.05);
+
+  /* Borders */
+  --ifm-color-emphasis-200: var(--color-border);
+  --ifm-color-emphasis-300: rgba(0, 212, 255, 0.3);
+  --ifm-hr-border-color: var(--color-border);
+  --ifm-table-border-color: var(--color-border);
+
+  /* Heading colors */
+  --ifm-heading-color: var(--color-text-primary);
+
+  /* Card/panel backgrounds */
+  --ifm-card-background-color: var(--color-bg-card);
+}

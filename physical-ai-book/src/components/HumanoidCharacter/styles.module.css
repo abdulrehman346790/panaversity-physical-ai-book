@@ -1,0 +1,25 @@
+.humanoid {
+  width: 100px;
+  height: 200px;
+  animation: breathe 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.4));
+  will-change: transform;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 0.95;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .humanoid {
+    animation: none;
+  }
+}
