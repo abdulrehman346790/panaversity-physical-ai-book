@@ -19,7 +19,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           HF_USERNAME: AR2107927
-          SPACE_NAME: physical-ai-auth-server
+          SPACE_NAME: Physical-Humanoid-Robotics-Book
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
