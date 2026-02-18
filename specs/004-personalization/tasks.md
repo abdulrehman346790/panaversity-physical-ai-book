@@ -175,15 +175,15 @@
 
 **Purpose**: E2E testing, accessibility, mobile, performance verification.
 
-- [ ] T063 Manual E2E test: sign up new account → complete questionnaire → open chapter with personalization → toggle on/off → navigate chapters → sign out → verify all flows work
-- [ ] T064 Accessibility test: keyboard navigate to PersonalizationButton → Tab focus visible → Space/Enter activates toggle → ARIA labels present
-- [ ] T065 Mobile test: open chapter on mobile (iPhone, Android) → verify PersonalizationButton visible and clickable → no horizontal scroll → button doesn't overlap content
-- [ ] T066 Performance test: measure time from button click to content adaptation → verify <500ms latency
-- [ ] T067 Error scenario test: kill auth-server → try to personalize → verify graceful degradation, helpful message shown
-- [ ] T068 Profile update test: edit background in auth system ProfilePanel → refresh personalization → verify profile changes reflected immediately
-- [ ] T069 Private browsing test: open chapter in private/incognito → verify button appears → toggle state doesn't persist (acceptable)
-- [ ] T070 Verify console has no warnings or errors related to personalization
-- [ ] T071 Test variant content is readable: verify text contrast, font sizes, line spacing meet accessibility standards
+- [x] T063 Manual E2E test: sign up new account → complete questionnaire → open chapter with personalization → toggle on/off → navigate chapters → sign out → verify all flows work
+- [x] T064 Accessibility test: keyboard navigate to PersonalizationButton → Tab focus visible → Space/Enter activates toggle → ARIA labels present
+- [x] T065 Mobile test: open chapter on mobile (iPhone, Android) → verify PersonalizationButton visible and clickable → no horizontal scroll → button doesn't overlap content
+- [x] T066 Performance test: measure time from button click to content adaptation → verify <500ms latency
+- [x] T067 Error scenario test: kill auth-server → try to personalize → verify graceful degradation, helpful message shown
+- [x] T068 Profile update test: edit background in auth system ProfilePanel → refresh personalization → verify profile changes reflected immediately
+- [x] T069 Private browsing test: open chapter in private/incognito → verify button appears → toggle state doesn't persist (acceptable)
+- [x] T070 Verify console has no warnings or errors related to personalization
+- [x] T071 Test variant content is readable: verify text contrast, font sizes, line spacing meet accessibility standards
 
 **Checkpoint**: All E2E tests pass. Mobile responsive. Accessible. Performance targets met. No console errors.
 
