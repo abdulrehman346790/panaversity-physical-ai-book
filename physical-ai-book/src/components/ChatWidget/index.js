@@ -28,12 +28,14 @@ export default function ChatWidget() {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Health check on mount
+  // Health check on mount (only on localhost)
   useEffect(() => {
-    fetch(`${CHAT_API_URL}/api/health`)
-      .then((r) => r.json())
-      .then((data) => setIsHealthy(data.status === 'healthy' || data.status === 'degraded'))
-      .catch(() => setIsHealthy(false));
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      fetch(`${CHAT_API_URL}/api/health`)
+        .then((r) => r.json())
+        .then((data) => setIsHealthy(data.status === 'healthy' || data.status === 'degraded'))
+        .catch(() => setIsHealthy(false));
+    }
   }, []);
 
   // Auto-scroll to bottom
@@ -304,10 +306,12 @@ export default function ChatWidget() {
                 className={styles.retryButton}
                 onClick={() => {
                   setIsHealthy(null);
-                  fetch(`${CHAT_API_URL}/api/health`)
-                    .then((r) => r.json())
-                    .then((data) => setIsHealthy(data.status === 'healthy' || data.status === 'degraded'))
-                    .catch(() => setIsHealthy(false));
+                  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+                    fetch(`${CHAT_API_URL}/api/health`)
+                      .then((r) => r.json())
+                      .then((data) => setIsHealthy(data.status === 'healthy' || data.status === 'degraded'))
+                      .catch(() => setIsHealthy(false));
+                  }
                 }}
               >
                 Retry

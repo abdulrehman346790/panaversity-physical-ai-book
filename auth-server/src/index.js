@@ -11,7 +11,13 @@ const port = process.env.PORT || 3001;
 // CORS — must be before routes, credentials: true for cookies
 const origins = process.env.CORS_ORIGINS
   ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
-  : ["http://localhost:3000", "http://localhost:3001", "http://localhost:3002"];
+  : [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "http://localhost:3002",
+      "http://localhost:3000",
+      "https://abdulrehman346790.github.io",
+    ];
 
 app.use(
   cors({

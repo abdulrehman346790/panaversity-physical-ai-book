@@ -31,7 +31,7 @@ export function PersonalizationButton() {
       aria-label={ariaLabel}
       title={ariaLabel}
     >
-      {buttonText}
+      <span>{buttonText}</span>
     </button>
   );
 }
