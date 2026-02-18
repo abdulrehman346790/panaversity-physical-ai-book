@@ -1,0 +1,72 @@
+.robotArm {
+  width: 200px;
+  height: 300px;
+  filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.5));
+  animation: robotArmMove 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  transform-origin: 100px 250px;
+  will-change: transform;
+}
+
+.shoulder {
+  transform-origin: 100px 245px;
+  animation: shoulderRotate 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  will-change: transform;
+}
+
+.elbow {
+  transform-origin: 100px 180px;
+  animation: elbowRotate 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  will-change: transform;
+}
+
+.gripper {
+  transform-origin: 100px 100px;
+}
+
+@keyframes robotArmMove {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  25%,
+  75% {
+    transform: rotate(45deg) translateY(-10px);
+  }
+  50% {
+    transform: rotate(45deg) translateY(-15px);
+  }
+}
+
+@keyframes shoulderRotate {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25%,
+  75% {
+    transform: rotate(45deg);
+  }
+}
+
+@keyframes elbowRotate {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25%,
+  75% {
+    transform: rotate(60deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robotArm {
+    animation: none;
+  }
+  .shoulder {
+    animation: none;
+  }
+  .elbow {
+    animation: none;
+  }
+}
